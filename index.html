@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOORGAX | GAME</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+<style>
+  :root{
+    --purple:#7b2ff7;
+    --blue:#2b5cff;
+    --red:#ff2d55;
+    --white:#ffffff;
+    --bg-dark:#0a0a16;
+    --bg-darker:#050509;
+    --card-bg:rgba(255,255,255,0.04);
+    --border-glow:rgba(123,47,247,0.4);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Vazirmatn', sans-serif;
+    background:var(--bg-dark);
+    color:var(--white);
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--purple);color:#fff;}
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{width:8px;}
+  ::-webkit-scrollbar-track{background:var(--bg-darker);}
+  ::-webkit-scrollbar-thumb{background:linear-gradient(var(--purple),var(--red));border-radius:10px;}
+
+  /* Background grid effect */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(123,47,247,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(43,92,255,0.06) 1px, transparent 1px);
+    background-size:40px 40px;
+    z-index:-2;
+    pointer-events:none;
+  }
+  body::after{
+    content:'';
+    position:fixed;
+    top:-20%;left:-10%;
+    width:60%;height:60%;
+    background:radial-gradient(circle, rgba(123,47,247,0.25), transparent 70%);
+    z-index:-1;
+    pointer-events:none;
+    animation:floatBlob 18s ease-in-out infinite alternate;
+  }
+  @keyframes floatBlob{
+    0%{transform:translate(0,0) scale(1);}
+    100%{transform:translate(15%,20%) scale(1.3);}
+  }
+
+  .container{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* NAVBAR */
+  header{
+    position:fixed;top:0;left:0;right:0;
+    z-index:1000;
+    background:rgba(10,10,22,0.7);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(255,255,255,0.07);
+    transition:.3s;
+  }
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 24px;max-width:1180px;margin:0 auto;
+  }
+  .logo{
+    font-size:24px;font-weight:900;letter-spacing:1px;
+    background:linear-gradient(45deg,var(--purple),var(--red),var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-transform:uppercase;
+  }
+  .nav-links{display:flex;gap:30px;list-style:none;}
+  .nav-links a{
+    color:#eee;text-decoration:none;font-size:15px;font-weight:500;
+    position:relative;transition:.3s;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-6px;left:0;width:0;height:2px;
+    background:linear-gradient(90deg,var(--purple),var(--red));
+    transition:.3s;
+  }
+  .nav-links a:hover{color:var(--white);}
+  .nav-links a:hover::after{width:100%;}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;}
+  .burger span{width:26px;height:3px;background:#fff;border-radius:3px;transition:.3s;}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    text-align:center;position:relative;padding:140px 20px 80px;
+  }
+  .hero-content{position:relative;z-index:2;max-width:820px;}
+  .hero-badge{
+    display:inline-block;padding:6px 18px;border:1px solid var(--border-glow);
+    border-radius:30px;font-size:13px;color:#cbb8ff;margin-bottom:24px;
+    background:rgba(123,47,247,0.08);letter-spacing:1px;
+    animation:fadeUp 1s ease forwards;
+  }
+  .hero h1{
+    font-size:clamp(42px,8vw,90px);
+    font-weight:900;line-height:1.1;
+    text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(90deg,var(--white) 20%,var(--purple) 50%,var(--red) 75%,var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:18px;
+    animation:fadeUp 1s ease 0.1s forwards;
+    opacity:0;
+  }
+  .hero h2{
+    font-size:clamp(18px,3vw,28px);
+    font-weight:600;color:#d7d2e8;margin-bottom:18px;letter-spacing:1px;
+    animation:fadeUp 1s ease 0.25s forwards;opacity:0;
+  }
+  .hero p.desc{
+    font-size:16px;color:#a9a3bd;max-width:600px;margin:0 auto 36px;line-height:2;
+    animation:fadeUp 1s ease 0.4s forwards;opacity:0;
+  }
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  .btn{
+    display:inline-block;padding:16px 42px;border-radius:12px;
+    font-weight:800;font-size:16px;text-decoration:none;
+    background:linear-gradient(45deg,var(--purple),var(--red));
+    color:#fff;border:none;cursor:pointer;
+    box-shadow:0 10px 30px rgba(255,45,85,0.35);
+    transition:.35s;letter-spacing:1px;
+    animation:fadeUp 1s ease 0.55s forwards;opacity:0;
+    position:relative;overflow:hidden;
+  }
+  .btn:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 16px 40px rgba(123,47,247,0.5);}
+  .btn::before{
+    content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.35),transparent);
+    transition:.5s;
+  }
+  .btn:hover::before{left:100%;}
+
+  .scroll-down{
+    position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+    color:#9d94c2;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:8px;
+    animation:bounce 2s infinite;
+  }
+  .scroll-down span{width:1px;height:30px;background:linear-gradient(var(--purple),transparent);}
+  @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(10px);}}
+
+  /* SECTION GENERAL */
+  section{padding:110px 0;position:relative;}
+  .section-tag{
+    display:inline-block;color:var(--red);font-weight:700;font-size:14px;
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;
+  }
+  .section-title{
+    font-size:clamp(30px,5vw,48px);font-weight:900;margin-bottom:16px;
+  }
+  .section-title span{
+    background:linear-gradient(90deg,var(--purple),var(--blue));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .section-sub{color:#a9a3bd;max-width:620px;font-size:16px;line-height:2;margin-bottom:60px;}
+  .reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.2,.8,.2,1);}
+  .reveal.active{opacity:1;transform:translateY(0);}
+
+  /* SERVICES */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .card{
+    background:var(--card-bg);border:1px solid rgba(255,255,255,0.08);
+    border-radius:20px;padding:38px 28px;transition:.4s;position:relative;overflow:hidden;
+  }
+  .card::before{
+    content:'';position:absolute;inset:0;border-radius:20px;
+    background:linear-gradient(135deg,rgba(123,47,247,0.15),transparent 60%);
+    opacity:0;transition:.4s;
+  }
+  .card:hover{transform:translateY(-10px);border-color:var(--purple);box-shadow:0 20px 50px rgba(123,47,247,0.25);}
+  .card:hover::before{opacity:1;}
+  .card-icon{
+    width:56px;height:56px;border-radius:14px;
+    background:linear-gradient(45deg,var(--purple),var(--blue));
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;margin-bottom:22px;
+  }
+  .card h3{font-size:20px;margin-bottom:12px;font-weight:800;}
+  .card p{color:#a9a3bd;font-size:14.5px;line-height:1.9;}
+
+  /* ABOUT / STATS */
+  .about-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;}
+  .about-wrap p{color:#bdb6d6;line-height:2.1;font-size:16px;margin-bottom:30px;}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  .stat-box{
+    text-align:center;background:var(--card-bg);border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;padding:28px 10px;
+  }
+  .stat-box .num{
+    font-size:38px;font-weight:900;
+    background:linear-gradient(45deg,var(--red),var(--purple));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .stat-box .lbl{color:#a9a3bd;font-size:13px;margin-top:6px;}
+  .glow-card{
+    border-radius:24px;padding:50px;
+    background:linear-gradient(160deg,rgba(123,47,247,0.18),rgba(255,45,85,0.08));
+    border:1px solid var(--border-glow);
+    text-align:center;font-size:60px;
+  }
+
+  /* PROJECTS */
+  .grid-3.projects .card{padding:0;overflow:hidden;}
+  .proj-img{
+    height:180px;display:flex;align-items:center;justify-content:center;font-size:46px;
+    background:linear-gradient(135deg,var(--purple),var(--blue));
+  }
+  .proj-body{padding:26px;}
+  .proj-body h3{margin-bottom:10px;}
+  .proj-body p{color:#a9a3bd;font-size:14px;line-height:1.8;margin-bottom:16px;}
+  .proj-link{color:var(--red);font-size:13px;font-weight:700;text-decoration:none;}
+
+  /* TESTIMONIALS */
+  .grid-3.testi .card{text-align:right;}
+  .stars{color:var(--red);margin-bottom:14px;font-size:15px;letter-spacing:2px;}
+  .testi-text{color:#cfc9e3;font-size:14.5px;line-height:1.9;margin-bottom:22px;}
+  .testi-person{display:flex;align-items:center;gap:12px;}
+  .avatar{
+    width:44px;height:44px;border-radius:50%;
+    background:linear-gradient(45deg,var(--red),var(--purple));
+    display:flex;align-items:center;justify-content:center;font-weight:800;
+  }
+  .testi-person .name{font-weight:800;font-size:14px;}
+  .testi-person .role{font-size:12px;color:#a9a3bd;}
+
+  /* FAQ */
+  .faq-item{
+    border:1px solid rgba(255,255,255,0.08);border-radius:14px;margin-bottom:14px;
+    overflow:hidden;background:var(--card-bg);
+  }
+  .faq-q{
+    padding:22px 26px;display:flex;justify-content:space-between;align-items:center;
+    cursor:pointer;font-weight:700;font-size:15.5px;
+  }
+  .faq-q .plus{color:var(--red);font-size:22px;transition:.3s;}
+  .faq-item.open .plus{transform:rotate(45deg);}
+  .faq-a{
+    max-height:0;overflow:hidden;transition:.35s ease;padding:0 26px;
+  }
+  .faq-a p{color:#a9a3bd;font-size:14px;line-height:1.9;padding-bottom:22px;}
+  .faq-item.open .faq-a{max-height:300px;}
+
+  /* CONTACT */
+  .contact-wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:40px;
+  }
+  .contact-info .card{margin-bottom:18px;display:flex;align-items:center;gap:16px;padding:24px;}
+  .contact-info .card .ic{font-size:24px;}
+  .contact-info .card h4{font-size:14px;color:#a9a3bd;margin-bottom:4px;}
+  .contact-info .card p{font-size:15px;font-weight:700;color:#fff;}
+  .social-row{display:flex;gap:14px;margin-top:10px;}
+  .social-row a{
+    width:46px;height:46px;border-radius:12px;background:var(--card-bg);
+    border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;
+    text-decoration:none;color:#fff;font-size:18px;transition:.3s;
+  }
+  .social-row a:hover{background:linear-gradient(45deg,var(--purple),var(--red));border-color:transparent;transform:translateY(-4px);}
+  .contact-cta{
+    border-radius:24px;padding:50px 36px;text-align:center;
+    background:linear-gradient(160deg,rgba(43,92,255,0.18),rgba(123,47,247,0.15));
+    border:1px solid var(--border-glow);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  }
+  .contact-cta h3{font-size:26px;margin-bottom:14px;font-weight:900;}
+  .contact-cta p{color:#bdb6d6;margin-bottom:28px;font-size:14.5px;}
+
+  footer{
+    border-top:1px solid rgba(255,255,255,0.07);padding:36px 0;text-align:center;
+    color:#827bab;font-size:13px;
+  }
+  footer .logo{font-size:18px;margin-bottom:10px;display:block;}
+
+  @media(max-width:900px){
+    .grid-3{grid-template-columns:1fr;}
+    .about-wrap{grid-template-columns:1fr;}
+    .contact-wrap{grid-template-columns:1fr;}
+    .stats{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:768px){
+    .nav-links{
+      position:fixed;top:0;right:-100%;width:75%;height:100vh;
+      background:rgba(10,10,22,0.97);backdrop-filter:blur(20px);
+      flex-direction:column;justify-content:center;align-items:center;
+      transition:.4s;gap:28px;
+    }
+    .nav-links.open{right:0;}
+    .burger{display:flex;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">GOORGAX</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">خانه</a></li>
+      <li><a href="#services">خدمات</a></li>
+      <li><a href="#about">درباره ما</a></li>
+      <li><a href="#projects">نمونه‌کارها</a></li>
+      <li><a href="#testimonials">نظرات</a></li>
+      <li><a href="#faq">سوالات</a></li>
+      <li><a href="#contact">تماس</a></li>
+    </ul>
+    <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">⚡ GTA VI EXPERIENCE</div>
+    <h1>GOORGAX</h1>
+    <h2>ASSASSIN'S</h2>
+    <p class="desc">اینجا می‌تونی مسیری رو تجربه کنی که هیچ‌کس تجربه نکرده. دنیایی از هیجان، استراتژی و گیم‌پلی بی‌نظیر در دل دنیای GTA VI منتظر شماست.</p>
+    <a href="#contact" class="btn">BOOMB 💥</a>
+  </div>
+  <div class="scroll-down"><span></span>SCROLL</div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">خدمات ما</div>
+      <h2 class="section-title">دسته‌بندی <span>خدمات و محصولات</span></h2>
+      <p class="section-sub">مجموعه‌ای از خدمات حرفه‌ای طراحی‌شده برای تجربه‌ای متفاوت در دنیای گیم.</p>
+    </div>
+    <div class="grid-3 reveal">
+      <div class="card">
+        <div class="card-icon">🎮</div>
+        <h3>دسته پی‌اس فایو</h3>
+        <p>ارائه و تنظیم دسته‌های اورجینال PS5 با کیفیت بالا برای تجربه‌ای روان و حرفه‌ای در بازی.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🕹️</div>
+        <h3>اکانت و بازی‌های اختصاصی</h3>
+        <p>دسترسی به جدیدترین تایتل‌های گیمینگ و اکانت‌های اختصاصی با امنیت کامل.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🛠️</div>
+        <h3>پشتیبانی و سرویس فنی</h3>
+        <p>تعمیر، تنظیم و بهینه‌سازی تجهیزات گیمینگ شما توسط تیم متخصص.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="about-wrap">
+      <div class="reveal">
+        <div class="section-tag">درباره ما</div>
+        <h2 class="section-title">داستان <span>GOORGAX</span></h2>
+        <p>GOORGAX با هدف ساختن تجربه‌ای متفاوت در دنیای گیمینگ شکل گرفته. ما معتقدیم بازی فقط سرگرمی نیست؛ یک مسیر برای کشف هیجانی است که هیچ‌کس قبل از تو تجربه نکرده.</p>
+        <p>تیم ما با تخصص در حوزه GTA VI و تجهیزات گیمینگ، در کنار شماست تا بهترین تجربه ممکن رو بسازیم.</p>
+        <div class="stats">
+          <div class="stat-box"><div class="num">+500</div><div class="lbl">مشتری راضی</div></div>
+          <div class="stat-box"><div class="num">+120</div><div class="lbl">پروژه انجام‌شده</div></div>
+          <div class="stat-box"><div class="num">24/7</div><div class="lbl">پشتیبانی</div></div>
+        </div>
+      </div>
+      <div class="reveal glow-card">🎮</div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">نمونه‌کارها</div>
+      <h2 class="section-title">پروژه‌های <span>اخیر</span></h2>
+      <p class="section-sub">نگاهی به برخی از کارهایی که با افتخار برای مشتریان‌مان انجام داده‌ایم.</p>
+    </div>
+    <div class="grid-3 projects reveal">
+      <div class="card">
+        <div class="proj-img">🎯</div>
+        <div class="proj-body">
+          <h3>پروژه آلفا</h3>
+          <p>راه‌اندازی کامل ست گیمینگ اختصاصی برای یک باشگاه حرفه‌ای.</p>
+          <a href="#" class="proj-link">مشاهده جزئیات ←</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="proj-img">🏆</div>
+        <div class="proj-body">
+          <h3>پروژه بتا</h3>
+          <p>برگزاری تورنومنت اختصاصی GTA VI با بیش از ۲۰۰ شرکت‌کننده.</p>
+          <a href="#" class="proj-link">مشاهده جزئیات ←</a>
+        </div>
+      </div>
+      <div class="card">
+        <div class="proj-img">⚙️</div>
+        <div class="proj-body">
+          <h3>پروژه گاما</h3>
+          <p>تامین و تنظیم تجهیزات گیمینگ برای استودیوی محتوا.</p>
+          <a href="#" class="proj-link">مشاهده جزئیات ←</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">نظرات مشتریان</div>
+      <h2 class="section-title">چی <span>میگن</span> درباره ما؟</h2>
+      <p class="section-sub">رضایت مشتریان، بهترین گواه کیفیت کار ماست.</p>
+    </div>
+    <div class="grid-3 testi reveal">
+      <div class="card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">تجربه خرید از GOORGAX فوق‌العاده بود، کیفیت دسته و پشتیبانی واقعا حرفه‌ای بود.</p>
+        <div class="testi-person">
+          <div class="avatar">ع</div>
+          <div><div class="name">علی رضایی</div><div class="role">گیمر حرفه‌ای</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">سرعت پشتیبانی و کیفیت محصولات نسبت به قیمت واقعا عالی بود. حتما دوباره خرید می‌کنم.</p>
+        <div class="testi-person">
+          <div class="avatar">س</div>
+          <div><div class="name">سارا محمدی</div><div class="role">محتوا‌ساز گیمینگ</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stars">★★★★★</div>
+        <p class="testi-text">تیم حرفه‌ای و پاسخگو، دقیقا همون چیزی که نیاز داشتم رو پیدا کردم.</p>
+        <div class="testi-person">
+          <div class="avatar">م</div>
+          <div><div class="name">محمد کریمی</div><div class="role">مدیر باشگاه گیمینگ</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">سوالات متداول</div>
+      <h2 class="section-title">پاسخ به <span>سوالات شما</span></h2>
+      <p class="section-sub">پاسخ سوالاتی که ممکنه ذهن شما رو مشغول کرده باشه.</p>
+    </div>
+    <div class="reveal" style="max-width:760px;">
+      <div class="faq-item">
+        <div class="faq-q">آیا محصولات اورجینال هستن؟ <span class="plus">+</span></div>
+        <div class="faq-a"><p>بله، تمامی محصولات با گارانتی اصالت و کیفیت ارائه می‌شوند.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">روش‌های ارسال چطوره؟ <span class="plus">+</span></div>
+        <div class="faq-a"><p>ارسال به سراسر کشور با پست پیشتاز یا تیپاکس امکان‌پذیر است.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">آیا پشتیبانی بعد از خرید دارید؟ <span class="plus">+</span></div>
+        <div class="faq-a"><p>بله، تیم پشتیبانی ما به صورت ۲۴ ساعته پاسخگوی شماست.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">تماس با ما</div>
+      <h2 class="section-title">بیا <span>شروع کنیم</span></h2>
+      <p class="section-sub">برای هرگونه سوال یا همکاری، با ما در ارتباط باشید.</p>
+    </div>
+    <div class="contact-wrap reveal">
+      <div class="contact-info">
+        <div class="card">
+          <div class="ic">📞</div>
+          <div><h4>شماره تلفن</h4><p>09921766083</p></div>
+        </div>
+        <div class="card">
+          <div class="ic">📍</div>
+          <div><h4>آدرس</h4><p>قم، پردیسان، خیابان اقلیمی</p></div>
+        </div>
+        <div class="card">
+          <div class="ic">✉️</div>
+          <div><h4>ایمیل</h4><p>info@goorgax.com</p></div>
+        </div>
+        <div class="social-row">
+          <a href="#" title="Instagram">📷</a>
+          <a href="#" title="Telegram">✈️</a>
+          <a href="#" title="LinkedIn">in</a>
+        </div>
+      </div>
+      <div class="contact-cta">
+        <h3>همین حالا با ما تماس بگیر</h3>
+        <p>تیم ما آماده پاسخگویی به شماست. فقط یک تماس فاصله داری.</p>
+        <a href="tel:09921766083" class="btn">CALL THE BOSS ☎️</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="logo">GOORGAX</span>
+  <p>© 2026 GOORGAX. تمامی حقوق محفوظ است.</p>
+</footer>
+
+<script>
+  // Mobile menu
+  const burger = document.getElementById('burger');
+  const navLinks = document.getElementById('navLinks');
+  burger.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if(!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Scroll reveal animation
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('active');
+      }
+    });
+  }, {threshold:0.15});
+  reveals.forEach(r => observer.observe(r));
+
+  // Header background on scroll
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 50){
+      header.style.boxShadow = '0 10px 30px rgba(0,0,0,0.4)';
+    } else {
+      header.style.boxShadow = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
